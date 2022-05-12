@@ -15,7 +15,7 @@ object Dependencies {
   val `kafka-launcher`     = "com.evolutiongaming"    %% "kafka-launcher"        % "0.0.11"
   val `cassandra-launcher` = "com.evolutiongaming"    %% "cassandra-launcher"    % "0.0.4"
   val hostname             = "com.evolutiongaming"    %% "hostname"              % "0.2.0"
-  val scassandra           = "com.evolutiongaming"    %% "scassandra"            % "3.3.0"
+  val scassandra           = "com.evolutiongaming"    %% "scassandra"            % "3.3.1-SNAPSHOT"
   val `cassandra-sync`     = "com.evolutiongaming"    %% "cassandra-sync"        % "1.1.0"
   val `cats-helper`        = "com.evolutiongaming"    %% "cats-helper"           % "2.7.6"
   val random               = "com.evolutiongaming"    %% "random"                % "0.1.1"
@@ -72,7 +72,6 @@ object Dependencies {
   object Pureconfig {
     private val version = "0.12.3"
     val pureconfig = "com.github.pureconfig" %% "pureconfig"      % version
-    val cats       = "com.github.pureconfig" %% "pureconfig-cats" % version
   }
 
   object Circe {

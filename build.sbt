@@ -70,7 +70,6 @@ lazy val journal = (project in file("journal")
     `cassandra-sync`,
     `scala-java8-compat`,
     Pureconfig.pureconfig,
-    Pureconfig.cats,
     Smetrics.smetrics,
     sstream,
     Cats.core,
@@ -78,7 +77,11 @@ lazy val journal = (project in file("journal")
     Scodec.core,
     Scodec.bits,
     Logback.core % Test,
-    Logback.classic % Test)))
+    Logback.classic % Test))
+  enablePlugins(ShadingPlugin)
+  settings(shadedModules ++= Set("com.github.pureconfig" %% "pureconfig"))
+  settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.kafka.journal.shaded"))
+  settings(validNamespaces ++= Set("com", "com.evolutiongaming", "com.evolutiongaming.kafka", "com.evolutiongaming.kafka.journal", "com.evolutiongaming.kafka.journal.shaded")))
 
 lazy val persistence = (project in file("persistence")
   settings (name := "kafka-journal-persistence")
