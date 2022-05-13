@@ -81,7 +81,7 @@ lazy val journal = (project in file("journal")
   enablePlugins(ShadingPlugin)
   settings(shadedModules ++= Set("com.github.pureconfig" %% "pureconfig"))
   settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.kafka.journal.shaded"))
-  settings(validNamespaces ++= Set("com", "com.evolutiongaming", "com.evolutiongaming.kafka", "com.evolutiongaming.kafka.journal", "com.evolutiongaming.kafka.journal.shaded")))
+  settings(validNamespaces ++= Set("com")))
 
 lazy val persistence = (project in file("persistence")
   settings (name := "kafka-journal-persistence")
@@ -93,7 +93,11 @@ lazy val persistence = (project in file("persistence")
     `akka-serialization`,
     `cats-helper`,
     Akka.persistence,
-    `akka-test-actor` % Test)))
+    `akka-test-actor` % Test))
+  enablePlugins(ShadingPlugin)
+  settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.kafka.journal.shaded"))
+  settings(validNamespaces ++= Set("com", "akka"))
+  settings(validEntries ++= Set("reference.conf")))
 
 lazy val `tests` = (project in file("tests")
   settings (name := "kafka-journal-tests")
@@ -125,13 +129,20 @@ lazy val replicator = (Project("replicator", file("replicator"))
   dependsOn (
     journal % "test->test;compile->compile", 
     `eventual-cassandra`)
-  settings (libraryDependencies ++= Seq(`cats-helper`)))
+  settings (libraryDependencies ++= Seq(`cats-helper`))
+  enablePlugins(ShadingPlugin)
+  settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.kafka.journal.shaded"))
+  settings(validNamespaces ++= Set("com"))
+  settings(validEntries ++= Set("reference.conf")))
 
 lazy val `eventual-cassandra` = (project in file("eventual-cassandra")
   settings (name := "kafka-journal-eventual-cassandra")
   settings commonSettings
   dependsOn (journal % "test->test;compile->compile")
-  settings (libraryDependencies ++= Seq(scache, scassandra)))
+  settings (libraryDependencies ++= Seq(scache, scassandra))
+  enablePlugins(ShadingPlugin)
+  settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.kafka.journal.shaded"))
+  settings(validNamespaces ++= Set("com")))
 
 lazy val `journal-circe` = (project in file("circe/core")
   settings (name := "kafka-journal-circe")
