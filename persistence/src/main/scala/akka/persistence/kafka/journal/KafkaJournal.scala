@@ -54,12 +54,7 @@ class KafkaJournal(config: Config) extends AsyncWriteJournal { actor =>
       .pure[Resource[IO, *]]
   }
 
-  def kafkaJournalConfig: IO[KafkaJournalConfig] = {
-    ConfigSource
-      .fromConfig(config)
-      .load[KafkaJournalConfig]
-      .liftTo[IO]
-  }
+  def kafkaJournalConfig: IO[KafkaJournalConfig] = KafkaJournal.kafkaJournalConfig[IO](config)
 
   def origin: IO[Option[Origin]] = {
 
@@ -285,5 +280,14 @@ class KafkaJournal(config: Config) extends AsyncWriteJournal { actor =>
         case Some(seqNr) => seqNr.value
         case None        => from
       }
+  }
+}
+
+object KafkaJournal {
+  def kafkaJournalConfig[F[_] : FromConfigReaderResult](config: Config): F[KafkaJournalConfig] = {
+    ConfigSource
+      .fromConfig(config)
+      .load[KafkaJournalConfig]
+      .liftTo[F]
   }
 }
