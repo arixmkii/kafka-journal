@@ -79,6 +79,7 @@ lazy val journal = (project in file("journal")
     Logback.core % Test,
     Logback.classic % Test))
   enablePlugins(ShadingPlugin)
+  settings(shadedModules ++= Set("com.github.pureconfig" %% "pureconfig"))
   settings(shadingRules += ShadingRule.moveUnder("pureconfig", "com.evolutiongaming.scassandra.shaded"))
   settings(validNamespaces ++= Set("com")))
 
